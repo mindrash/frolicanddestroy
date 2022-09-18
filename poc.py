@@ -14,6 +14,7 @@ def main():
     mypath = "img/"
 
     files = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+    files.sort(reverse=True)
     total = 0
 
     for file in files:
@@ -25,7 +26,7 @@ def main():
 
         m2 = m1
         while m1 == m2:
-            m2 = files[randrange(30, 57)]
+            m2 = files[randrange(len(files))]
 
         print(f"Second image is: {m2}")
 
@@ -58,7 +59,7 @@ def main():
             border_color = "#000000"
 
         frames = 8
-        count = 2
+        count = 1
         step = 30
 
         w, h = 5400, 7200
@@ -83,29 +84,41 @@ def main():
 
         high_low = randrange(0, 4)
         print(f"high_low: {high_low}")
+        throttle = True
+        what_color = randrange(0, 3)
 
         while count <= frames:
             print(f"Starting frame: {count}")
-            what_color = randrange(0, 3)
             im3 = im2
             im_working = im
 
             new_image_data = []
             for item in datas:
                 if (item[what_color] in list(range(color_value, stop_color))):
-                    new_image_data.append((255, 255, 255, 0))
+                    new_image_data.append((255, 255, 255))
                 else:
                     new_image_data.append(item)
                         
-            if high_low:
+            im_working.putdata(new_image_data) 
+
+            if high_low == 0:
+                new_image_data = []
                 for item in datas:
                     if (item[what_color] in list(range(0, stop_color2))):
-                        new_image_data.append((255, 255, 255, 0))
+                        new_image_data.append((255, 255, 255))
+                        throttle = False
                     else:
                         new_image_data.append(item)
-
-            im_working.putdata(new_image_data) 
+                im_working.putdata(new_image_data) 
+    
             im_working = im_working.convert("RGBA")
+
+            pixdata = im_working.load()
+
+            for y in range(h):
+                for x in range(w):
+                    if pixdata[x, y] == (255, 255, 255, 255):
+                        pixdata[x, y] = (255, 255, 255, 0)
 
             x = 0
             y = 0
@@ -144,6 +157,8 @@ def main():
                 str_c2 = "0" + str_c2
 
             im2.save(f"frames/fad-{str_c2}.png")
+            if throttle:
+                step *= 2
             color_value -= step
             stop_color2 += step2
             count += 1
