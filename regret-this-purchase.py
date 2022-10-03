@@ -45,6 +45,7 @@ def main():
 
     files = [f for f in listdir(mypath) if isfile(join(mypath, f))]
     files.sort()
+    max_total = 999
     total = 0
 
     for file in files:
@@ -61,7 +62,7 @@ def main():
         use_path = path_sq
 
         logging.info(f"Creating: {ts} {str(datetime.datetime.now())}")
-        if total > 0:
+        if total > max_total:
             break
 
         for shape_count in range(0, 2):
@@ -452,14 +453,14 @@ def final_border(border_width, border_color, top_img, shape):
 def trip_glitch(w, h, top_img, bottom_img):
     print("making trip_glitch")
     glitcher = ImageGlitcher()
-    top_img_section = top_img.crop((0, 2000, w, 4000))
-    bottom_img_section = bottom_img.crop((0, 2000, w, 4000))
+    top_img_section = top_img.crop((0, round(h * .33), w, round(h * .66)))
+    bottom_img_section = bottom_img.crop((0, round(h * .33), w, round(h * .66)))
     top_img_section = glitcher.glitch_image(top_img_section, randrange(1, 3), color_offset=False)
     bottom_img_section = glitcher.glitch_image(bottom_img_section, randrange(1, 3), color_offset=False)
     top_img_section = top_img_section.convert("RGBA")
     bottom_img_section = bottom_img_section.convert("RGBA")
-    top_img.paste(top_img_section, (0, 2000), top_img_section)        
-    bottom_img.paste(bottom_img_section, (0, 2000), bottom_img_section)
+    top_img.paste(top_img_section, (0, round(h * .33)), top_img_section)        
+    bottom_img.paste(bottom_img_section, (0, round(h * .33)), bottom_img_section)
     return top_img, bottom_img
 
 def make_tri(top_img):
