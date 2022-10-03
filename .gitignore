@@ -2,6 +2,7 @@ frames/*
 img/*
 sketch*
 out/*
+meta/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
