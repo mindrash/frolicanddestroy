@@ -97,6 +97,7 @@ def main():
             bottom_path = f'img/{bottom}'
 
             top_img = Image.open(top_path)
+            os.rename(top_path, top_path.replace("img", "processed"))
             top_img = make_sq_or_rect(sq_or_rect, top_img)
 
             w, h = top_img.size
