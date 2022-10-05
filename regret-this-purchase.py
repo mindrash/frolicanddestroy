@@ -25,21 +25,6 @@ def main():
     logging.info(console_line)
     logging.info("Starting: " + str(datetime.datetime.now()))
 
-    generations = 0
-    all_palettes = False
-    sq_or_rect = "square"
-    has_heart_beat = True
-    is_inverted = False
-    special_border = False
-    has_trip = False
-    has_glitch = False
-    has_section_glitch = False
-    has_section_frame = False
-    is_black_and_white = False
-    num_lines = 3
-
-    border_width = 200
-    border_color = "#fffede"
     mypath = "img/"
     metapath = "meta/"
 
@@ -49,6 +34,22 @@ def main():
     total = 0
 
     for file in files:
+        generations = 0
+        all_palettes = False
+        sq_or_rect = "square"
+        has_heart_beat = True
+        is_inverted = False
+        special_border = False
+        has_trip = False
+        has_glitch = False
+        has_section_glitch = False
+        has_section_frame = False
+        is_black_and_white = False
+        num_lines = 3
+
+        border_width = 200
+        border_color = "#fffede"
+
         try:
             ts = round(time.time())
             directory = str(ts)
@@ -457,15 +458,16 @@ def final_border(border_width, border_color, top_img, shape):
 
 def trip_glitch(w, h, top_img, bottom_img):
     print("making trip_glitch")
+    offset = 200
     glitcher = ImageGlitcher()
-    top_img_section = top_img.crop((0, round(h * .33), w, round(h * .66)))
-    bottom_img_section = bottom_img.crop((0, round(h * .33), w, round(h * .66)))
+    top_img_section = top_img.crop((0, round(h * .33) + offset, w, round(h * .66) + offset))
+    bottom_img_section = bottom_img.crop((0, round(h * .33) + offset, w, round(h * .66) + offset))
     top_img_section = glitcher.glitch_image(top_img_section, randrange(1, 3), color_offset=False)
     bottom_img_section = glitcher.glitch_image(bottom_img_section, randrange(1, 3), color_offset=False)
     top_img_section = top_img_section.convert("RGBA")
     bottom_img_section = bottom_img_section.convert("RGBA")
-    top_img.paste(top_img_section, (0, round(h * .33)), top_img_section)        
-    bottom_img.paste(bottom_img_section, (0, round(h * .33)), bottom_img_section)
+    top_img.paste(top_img_section, (0, round(h * .33) + offset), top_img_section)        
+    bottom_img.paste(bottom_img_section, (0, round(h * .33) + offset), bottom_img_section)
     return top_img, bottom_img
 
 def make_tri(top_img):
