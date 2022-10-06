@@ -11,6 +11,7 @@ import torchvision.transforms.functional as F
 import pyfiglet
 import logging
 import os
+import glob
 
 def main():
     name = "Regret This Purchase"
@@ -26,6 +27,7 @@ def main():
     logging.info("Starting: " + str(datetime.datetime.now()))
 
     mypath = "img/"
+    mypath_txt = "img_txt/"
     metapath = "meta/"
 
     files = [f for f in listdir(mypath) if isfile(join(mypath, f))]
@@ -34,8 +36,24 @@ def main():
     total = 0
 
     for file in files:
-        generations = 0
-        all_palettes = False
+        current_files = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+        if len(current_files) < 2:
+            print("not enough files")
+            break
+        current_file1 = current_files[0]
+        current_file2 = current_files[1]
+
+        if ".png" not in current_file1 or not os.path.isfile(mypath + current_file1):
+            print("no pngs")
+            continue
+
+        base_filename = current_file1.replace(".png", ".txt")
+        with open(f"{mypath_txt}{base_filename}", "r") as txt_file:
+            txt_info = txt_file.readline().split(",")
+
+        generations = txt_info[0]
+        all_palettes = txt_info[1]
+
         sq_or_rect = "square"
         has_heart_beat = True
         is_inverted = False
@@ -86,12 +104,10 @@ def main():
                 count = 1
                 step = round(255 / frames)
 
-                top = file
+                top = current_file1
                 print(f"First image is: {top}")
 
-                bottom = top
-                while bottom == top:
-                    bottom = files[randrange(len(files))]
+                bottom = current_file2
 
                 print(f"Second image is: {bottom}")
 
@@ -99,7 +115,6 @@ def main():
                 bottom_path = f'img/{bottom}'
 
                 top_img = Image.open(top_path)
-                #os.rename(top_path, top_path.replace("img", "processed"))
                 top_img = make_sq_or_rect(sq_or_rect, top_img)
 
                 w, h = top_img.size
@@ -436,7 +451,13 @@ def main():
                 data_file.close()
 
             logging.info(f"{ts}: {nft_json}")
+
+            if shape_count == 1:
+                os.rename(top_path, top_path.replace("img", "processed"))
+                os.rename(bottom_path, bottom_path.replace("img", "processed"))
+
         except Exception as ex:
+            print(ex)
             logging.info(f"{ex}")
 
 
