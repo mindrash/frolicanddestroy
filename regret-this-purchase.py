@@ -384,7 +384,7 @@ def main():
                     count += 1
                 total += 1
 
-            data_name = f"{ts}-{sq_or_rect}-{sq_or_rect}.json"
+            data_name = f"{ts}-{sq_or_rect}.json"
 
             name = ""
             if "square" in sq_or_rect:
@@ -442,6 +442,14 @@ def main():
                     {
                         "trait_type" : "all_palettes",
                         "value" : all_palettes
+                    },
+                    {
+                        "trait_type" : "layer1",
+                        "value" : top_path
+                    },
+                    {
+                        "trait_type" : "layer2",
+                        "value" : bottom_path
                     },
                 ],
             }
