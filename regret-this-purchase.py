@@ -380,83 +380,82 @@ def main():
                         color_value = 0
                     else:
                         color_value -= step
-                    
+
+                    data_name = f"{ts}-{sq_or_rect}.json"
+                    name = ""
+                    if "square" in sq_or_rect:
+                        name = "Square"
+                    else:
+                        name = "Rectangle"
+
+                    ipfs_url = "ipfs://[[IPFS_URL]]"
+                    nft_json = {
+                        "description" : description,
+                        "external_url" : "https://mindrash.com/regret-this-purchase.html",
+                        "image" : ipfs_url,
+                        "name" : f"Regret This {name}: [[token_id]]",
+                        "attributes" : [
+                            {
+                                "trait_type" : "is_sq_or_rect",
+                                "value" : sq_or_rect
+                            },
+                            {
+                                "trait_type" : "1000x1000_ipfs",
+                                "value" : "ipfs://[[1000x1000_ipfs]]"
+                            },
+                            {
+                                "trait_type" : "has_triptych",
+                                "value" : str(has_trip)
+                            },
+                            {
+                                "trait_type" : "has_section_frame",
+                                "value" : str(has_section_frame)
+                            },
+                            {
+                                "trait_type" : "has_glitch",
+                                "value" : str(has_glitch)
+                            },
+                            {
+                                "trait_type" : "is_inverted",
+                                "value" : str(is_inverted)
+                            },
+                            {
+                                "trait_type" : "is_black_and_white",
+                                "value" : str(is_black_and_white)
+                            },
+                            {
+                                "trait_type" : "border_color",
+                                "value" : border_color
+                            },
+                            {
+                                "trait_type" : "frame_count",
+                                "value" : str(frames)
+                            },
+                            {
+                                "trait_type" : "generations",
+                                "value" : generations
+                            },
+                            {
+                                "trait_type" : "all_palettes",
+                                "value" : all_palettes
+                            },
+                            {
+                                "trait_type" : "layer1",
+                                "value" : top_path
+                            },
+                            {
+                                "trait_type" : "layer2",
+                                "value" : bottom_path
+                            },
+                        ],
+                    }
+
+                    with open(metapath + data_name, "w") as data_file:
+                        json.dump(nft_json, data_file)
+                        data_file.close()
+
                     count += 1
                 total += 1
-
-            data_name = f"{ts}-{sq_or_rect}.json"
-
-            name = ""
-            if "square" in sq_or_rect:
-                name = "Square"
-            else:
-                name = "Rectsngle"
-
-            ipfs_url = "ipfs://[[IPFS_URL]]"
-            nft_json = {
-                "description" : description,
-                "external_url" : "https://mindrash.com/regret-this-purchase.html",
-                "image" : ipfs_url,
-                "name" : f"{name}: [[token_id]]",
-                "attributes" : [
-                    {
-                        "trait_type" : "is_sq_or_rect",
-                        "value" : sq_or_rect
-                    },
-                    {
-                        "trait_type" : "1000x1000_ipfs",
-                        "value" : "ipfs://[[1000x1000_ipfs]]"
-                    },
-                    {
-                        "trait_type" : "has_triptyc",
-                        "value" : has_trip
-                    },
-                    {
-                        "trait_type" : "has_section_frame",
-                        "value" : has_section_frame
-                    },
-                    {
-                        "trait_type" : "has_glitch",
-                        "value" : has_glitch
-                    },
-                    {
-                        "trait_type" : "is_inverted",
-                        "value" : is_inverted
-                    },
-                    {
-                        "trait_type" : "is_black_and_white",
-                        "value" : is_black_and_white
-                    },
-                    {
-                        "trait_type" : "border_color",
-                        "value" : border_color
-                    },
-                    {
-                        "trait_type" : "frame_count",
-                        "value" : frames + 1
-                    },
-                    {
-                        "trait_type" : "generations",
-                        "value" : generations
-                    },
-                    {
-                        "trait_type" : "all_palettes",
-                        "value" : all_palettes
-                    },
-                    {
-                        "trait_type" : "layer1",
-                        "value" : top_path
-                    },
-                    {
-                        "trait_type" : "layer2",
-                        "value" : bottom_path
-                    },
-                ],
-            }
-
-            with open(metapath + data_name, "w") as data_file:
-                json.dump(nft_json, data_file)
-                data_file.close()
 
             logging.info(f"{ts}: {nft_json}")
 
