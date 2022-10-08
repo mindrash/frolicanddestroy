@@ -15,7 +15,7 @@ import glob
 
 def main():
     name = "Regret This Purchase"
-    description = "A generative art collection by mindrash began as a follow up to Frolic and Detour. The lineage continues to explore the legal concept as a metaphor in life together with the journey through this technology stack. It incorporates heightened movement as breath and heartbeat that can be experienced with the risk, reward, and failure in this space. Randomness dominates but is framed with constraints. There is an exterior and an interior to each piece with palettes mixing and eroding between."
+    description = "Regret This Purchase is a generative art collection by mindrash. The lineage continues to explore the legal concept of Frolic and Detour as a metaphor in life together with the journey through this technology stack. Heightened breath movement and heartbeat is incorporated for the risk, reward, and failure in this space. Randomness dominates but is framed with constraints. There is an exterior and an interior to each piece with palettes mixing and eroding between."
 
     print(pyfiglet.figlet_format(name))
     print("Starting: " + str(datetime.datetime.now()))
@@ -55,18 +55,6 @@ def main():
         all_palettes = txt_info[1]
 
         sq_or_rect = "square"
-        has_heart_beat = True
-        is_inverted = False
-        special_border = False
-        has_trip = False
-        has_glitch = False
-        has_section_glitch = False
-        has_section_frame = False
-        is_black_and_white = False
-        num_lines = 3
-
-        border_width = 200
-        border_color = "#fffede"
 
         try:
             ts = round(time.time())
@@ -86,20 +74,33 @@ def main():
                 break
 
             for shape_count in range(0, 2):
+                has_heart_beat = True
+                is_inverted = False
+                special_border = False
+                has_trip = False
+                has_glitch = False
+                has_section_glitch = False
+                has_section_frame = False
+                is_black_and_white = False
+                num_lines = 3
+
+                border_width = 200
+                border_color = "#fffede"
+
                 if shape_count == 1:
                     sq_or_rect = "rectangle"
                     use_path = path_rect
 
-                if 1 == randrange(1, 6):
+                if 1 == randrange(0, 6):
                     special_border = True
                     print(f"special_border: {special_border}")
                     has_trip = True
                     print(f"has_trip: {has_trip}")
 
-                if 1 == randrange(1, 20):
+                if 1 == randrange(0, 20):
                     border_color = "#202020"
 
-                frames = randrange(4, 9)
+                frames = randrange(4, 11)
                 print(f"frames: {frames}")
                 count = 1
                 step = round(255 / frames)
@@ -119,7 +120,7 @@ def main():
 
                 w, h = top_img.size
 
-                if 1 == randrange(0, 4):
+                if 1 == randrange(0, 8):
                     top_img = top_img.convert("RGB")
                     top_img = ImageOps.invert(top_img)
                     is_inverted = True
@@ -128,20 +129,20 @@ def main():
                 bottom_img = Image.open(bottom_path)
                 bottom_img = make_sq_or_rect(sq_or_rect, bottom_img)
 
-                if 1 == randrange(0, 4):
+                if 1 == randrange(0, 8):
                     bottom_img = bottom_img.convert("RGB")
                     bottom_img = ImageOps.invert(bottom_img)
                     is_inverted = True
                     print(f"is_inverted: {is_inverted}")
 
-                factor = randrange(1, 50)
+                factor = randrange(0, 50)
                 print(f"Factor: {factor}")
                 enhancer = ImageEnhance.Contrast(bottom_img)
                 bottom_img = enhancer.enhance(factor)
                 enhancer = ImageEnhance.Contrast(top_img)
                 top_img = enhancer.enhance(factor)
 
-                if 1 == randrange(1, 20):
+                if 1 == randrange(0, 20):
                     has_glitch = True
                     glitcher = ImageGlitcher()
                     top_img = glitcher.glitch_image(top_img, randrange(1, 3), color_offset=False)
@@ -157,17 +158,11 @@ def main():
                 if 1 == randrange(1, 5) and not has_trip and not has_glitch:            
                     has_section_glitch = True
                     special_border = True
-                    border_size = border_width
                     print(f"has_section_glitch: {has_section_glitch}")
 
-                    frame_min_dist = 500
-                    meets_min_dist = (x2_section < w - frame_min_dist and x1_section > w + frame_min_dist and y2_section < h - frame_min_dist and y1_section > h + frame_min_dist)
-                    print(f"meets_min_dist: {meets_min_dist}")
                     if  1 == randrange(1, 3):
                         has_section_frame = True
-                        border_size = 0
 
-                    glitch_border_color = border_color
                     glitcher = ImageGlitcher()
                     x1_section = randrange(1000, w - 2000)
                     y1_section = randrange(1000, h - 2000)
@@ -201,10 +196,10 @@ def main():
                 elif has_trip:
                     top_img, bottom_img = trip_glitch(w, h, top_img, bottom_img)
 
-                if 1 == randrange(1, 4):
+                if 1 == randrange(0, 10):
                     is_black_and_white = True
                     border_color = "#ffffff"
-                    factor = randrange(5, 20)
+                    factor = randrange(5, 10)
                     if 1 == randrange(1, 3):
                         top_img = ImageOps.grayscale(top_img)
                         enhancer = ImageEnhance.Contrast(top_img)
@@ -215,7 +210,6 @@ def main():
 
                 top_img = top_img.convert("RGBA")
                 bottom_img = bottom_img.convert("RGBA")
-
                 pass_img = top_img
 
                 print(f"border_color: {border_color}")
@@ -252,9 +246,6 @@ def main():
                 heartbeat = 1
                 print(f"heartbeat: {heartbeat}")
 
-                if 1 == randrange(0, 2):
-                    has_heart_beat = True
-
                 top_img_out = pass_img
 
                 while count <= frames:
@@ -266,28 +257,28 @@ def main():
                         top_img_out = pass_img
 
                     if has_glitch and 1 == randrange(0, 2):
-                        top_img_out = glitcher.glitch_image(top_img_out, randrange(1, 6), color_offset=False)
+                        top_img_out = glitcher.glitch_image(top_img_out, randrange(1, 3), color_offset=False)
                         top_img_out = top_img_out.convert("RGBA")
 
                     datas = top_img_out.getdata()
                     newData = []
                     for item in datas:
-                        if count == frames - 1:
-                            if item[0] > color_value and item[1] > color_value or item[2] > color_value:
+                        #if count == frames - 1:
+                        #    if item[0] > color_value and item[1] > color_value or item[2] > color_value:
+                        #        newData.append((255, 255, 255, 0))
+                        #    else:
+                        #        newData.append(item)
+                        #else:
+                        if 1 == randrange(0, 2):
+                            if item[0] > color_value or (item[1] > color_value and item[2] > color_value):
                                 newData.append((255, 255, 255, 0))
                             else:
                                 newData.append(item)
                         else:
-                            if 1 == randrange(0, 2):
-                                if item[0] > color_value or (item[1] > color_value and item[2] > color_value):
-                                    newData.append((255, 255, 255, 0))
-                                else:
-                                    newData.append(item)
+                            if item[0] > color_value and item[1] > color_value and item[2] > color_value:
+                                newData.append((255, 255, 255, 0))
                             else:
-                                if item[0] > color_value and item[1] > color_value and item[2] > color_value:
-                                    newData.append((255, 255, 255, 0))
-                                else:
-                                    newData.append(item)
+                                newData.append(item)
 
                     top_img_out.putdata(newData)
 
@@ -316,7 +307,7 @@ def main():
                     if has_heart_beat:
                         beat_size = randrange(0, 20)
                         if not special_border:
-                            beat_size = randrange(0, 20)
+                            beat_size = randrange(0, 50)
 
                         print(f"beat_size: {beat_size}")
 
@@ -338,6 +329,9 @@ def main():
                         else:
                             heartbeat += 1
 
+                    if count > 2:
+                        bottom_img_out = F.adjust_hue(bottom_img_out, random.uniform(-.1, .1))
+
                     if has_section_frame:
                         add_frame(w, h, border_color, top_img_out, x1_section, y1_section, x2_section, y2_section, frame_size)
 
@@ -352,11 +346,8 @@ def main():
                                 lshape = [(0, h1), (w, h2)]
                                 im_rect.rectangle(lshape, outline=border_color, width=border_width, fill=border_color)
 
-                    im_rect.rectangle(shape, outline=border_color, width=border_width, fill=None)
-                    
+                    im_rect.rectangle(shape, outline=border_color, width=border_width, fill=None)                   
                     bottom_img_out.paste(top_img_out, (0,0), mask=top_img_out)
-                    if count > 2:
-                        bottom_img_out = F.adjust_hue(bottom_img_out, random.uniform(-.1, .1))
 
                     final_border(2, border_color, bottom_img_out, shape)
                     make_tri(bottom_img_out)
