@@ -287,17 +287,17 @@ def main():
                         glitcher = ImageGlitcher()
                         section_shape = (x1_section, y1_section, x2_section, y2_section)
                         top_img_section = top_img_out.crop(section_shape)
-                        bottom_img_section = bottom_img_out.crop(section_shape)
+                        #bottom_img_section = bottom_img_out.crop(section_shape)
                         top_img_section = glitcher.glitch_image(top_img_section, randrange(1, 3), color_offset=False)
-                        bottom_img_section = glitcher.glitch_image(bottom_img_section, randrange(1, 3), color_offset=False)
+                        #bottom_img_section = glitcher.glitch_image(bottom_img_section, randrange(1, 3), color_offset=False)
                         top_img_section = top_img_section.convert("RGBA")
-                        bottom_img_section = bottom_img_section.convert("RGBA")
+                        #bottom_img_section = bottom_img_section.convert("RGBA")
                         top_img_out.paste(top_img_section, (x1_section, y1_section), top_img_section)        
-                        bottom_img_out.paste(bottom_img_section, (x1_section, y1_section), bottom_img_section)
+                        #bottom_img_out.paste(bottom_img_section, (x1_section, y1_section), bottom_img_section)
                         im_rect = ImageDraw.Draw(top_img_out)
                         im_rect.rectangle((x1_section - border_width/2, y1_section - border_width/2, x2_section + border_width/2, y2_section + border_width/2,), outline=border_color, width=border_width, fill=None)
-                        im_rect = ImageDraw.Draw(bottom_img_out)
-                        im_rect.rectangle((x1_section - border_width/2, y1_section - border_width/2, x2_section + border_width/2, y2_section + border_width/2,), outline=border_color, width=border_width, fill=None)
+                        #im_rect = ImageDraw.Draw(bottom_img_out)
+                        #im_rect.rectangle((x1_section - border_width/2, y1_section - border_width/2, x2_section + border_width/2, y2_section + border_width/2,), outline=border_color, width=border_width, fill=None)
                     elif has_trip:
                         top_img_out, bottom_img_out = trip_glitch(w, h, top_img, bottom_img)
 
@@ -480,13 +480,13 @@ def trip_glitch(w, h, top_img, bottom_img):
     offset = 200
     glitcher = ImageGlitcher()
     top_img_section = top_img.crop((0, round(h * .33) + offset, w, round(h * .66) + offset))
-    bottom_img_section = bottom_img.crop((0, round(h * .33) + offset, w, round(h * .66) + offset))
+    #bottom_img_section = bottom_img.crop((0, round(h * .33) + offset, w, round(h * .66) + offset))
     top_img_section = glitcher.glitch_image(top_img_section, randrange(1, 3), color_offset=False)
-    bottom_img_section = glitcher.glitch_image(bottom_img_section, randrange(1, 3), color_offset=False)
+    #bottom_img_section = glitcher.glitch_image(bottom_img_section, randrange(1, 3), color_offset=False)
     top_img_section = top_img_section.convert("RGBA")
-    bottom_img_section = bottom_img_section.convert("RGBA")
+    #bottom_img_section = bottom_img_section.convert("RGBA")
     top_img.paste(top_img_section, (0, round(h * .33) + offset), top_img_section)        
-    bottom_img.paste(bottom_img_section, (0, round(h * .33) + offset), bottom_img_section)
+    #bottom_img.paste(bottom_img_section, (0, round(h * .33) + offset), bottom_img_section)
     return top_img, bottom_img
 
 def make_tri(top_img):
