@@ -20,14 +20,14 @@ for d in */ ; do
     echo "starting sq mogrify"
     mogrify -layers 'optimize' -fuzz 5% "./$d/square/sq-${timestamp}.gif"
     echo "starting sq resize"
-    convert "./$d/square/sq-${timestamp}.gif" -resize 1000x1000 "./$d/square/sq-1000x1000-${timestamp}.gif"
+    convert "./$d/square/sq-${timestamp}.gif" -coalesce -resize 1000x1000 -loop 0 "./$d/square/sq-1000x1000-${timestamp}.gif"
 
     echo "starting rc convert"
     convert -dispose background -layers OptimizeTransparency -delay $seconds ./$d/rectangle/*.png +repage -loop 0 "./$d/rectangle/rc-${timestamp}.gif"
     echo "starting rc mogrify"
     mogrify -layers 'optimize' -fuzz 5% "./$d/rectangle/rc-${timestamp}.gif"
     echo "starting rc resize"
-    convert "./$d/rectangle/rc-${timestamp}.gif" -resize 1000x1000 "./$d/rectangle/rc-1000x1000-${timestamp}.gif"
+    convert "./$d/rectangle/rc-${timestamp}.gif" -coalesce -resize 1000x1000 -loop 0 "./$d/rectangle/rc-1000x1000-${timestamp}.gif"
 
     mv ./$d "./staged-$d"
 done
